@@ -1,0 +1,24 @@
+[project]
+name = "prompts-on-trial"
+version = "0.1.0"
+description = "Prompts treated as code: each ships with eval cases and a scored baseline."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Chris Ampadu" }]
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/prompts_on_trial"]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["req(id): the requirement id this test proves (REQ-###)"]
