@@ -1,0 +1,141 @@
+# Part A inputs (REQ-040, REQ-041). Adopted from EVALS-DRAFT.md section 3.4 by session 7.2.
+# Every persona and event is fictional. `log` is what the model sees; `map` is what the judge sees.
+# thin: the case expects a thin-coverage report, so the CP-D6 word floor is waived (REQ-015).
+# canaries: strings the output must not contain (REQ-003, REQ-016, REQ-020).
+histories:
+  H1:
+    title: "Clean history (control)"
+    thin: false
+    main_body_patterns: 3
+    canaries: []
+    expected: "CP-D1 to D12 pass; CP-J1 to J5 yes. Main body holds exactly three patterns."
+    log: |
+      h1-01 | 2025-01 | learning | behaviour | Enrolled in a 12-module statistics course; completed 9 modules, never opened the last 3.
+      h1-02 | 2025-02 | work | behaviour | Sorted 60 support tickets into 9 categories before proposing any fix.
+      h1-03 | 2025-03 | work | behaviour | Told "this report is confusing": changed nothing. Told "page 2 takes four minutes to find the number": rewrote page 2 the same day.
+      h1-04 | 2025-04 | personal | behaviour | Note to self: "best work this month all after 21:00".
+      h1-05 | 2025-05 | hobby | behaviour | Built a recipe app to a working state; stopped before writing the launch page.
+      h1-06 | 2025-06 | personal | behaviour | Scored 14 flats on 6 criteria in a spreadsheet before viewing one; two were let before she viewed.
+      h1-07 | 2025-06 | personal | self-report | "I am a perfectionist."
+      h1-08 | 2025-07 | work | behaviour | Told "too long": no change. Told "cut 300 words": cut 310.
+      h1-09 | 2025-08 | personal | behaviour | Booked a two-week holiday in one evening with no comparison of options.
+      h1-10 | 2025-09 | work | behaviour | Left a report without its conclusion until the morning of the deadline.
+      h1-11 | 2025-09 | work | behaviour | Changed a slide design after a director said only "it feels off".
+      h1-12 | 2025-10 | learning | behaviour | Before a first Spanish lesson, laid out every verb form in one table.
+      h1-13 | 2025-10 | personal | behaviour | Note to self: "wrote the whole plan between 21:00 and midnight".
+      h1-14 | 2025-11 | coaching | behaviour | Told "be more assertive": no change. Told "speak in the first two minutes of each meeting": did so in the next four meetings.
+      h1-15 | 2025-12 | work | behaviour | Finished the quarterly review two days early; it had an external deadline and a named audience.
+      h1-16 | 2025-12 | personal | behaviour | Bought a standing desk.
+    map:
+      - {item: "Classifies before acting", entries: "h1-02, h1-06, h1-12; counter h1-09", place: "Main body", why: "Three contexts, eight months. The cost is in h1-06: two flats lost."}
+      - {item: "Acts only on quantified criticism", entries: "h1-03, h1-08, h1-14; counter h1-11", place: "Main body", why: "Three contexts, eight months, each with a vague and a precise wording side by side."}
+      - {item: "Stops at about four fifths done", entries: "h1-01, h1-05, h1-10; counter h1-15", place: "Main body", why: "Three contexts, eight months. The counter-instance had an external deadline, which a good profile uses in the Cost or Instruction line."}
+      - {item: "Works late in the evening", entries: "h1-04, h1-13", place: "Section 9", why: "Two instances only."}
+      - {item: "Standing desk", entries: "h1-16", place: "Dropped", why: "One instance, no pattern."}
+      - {item: "\"Perfectionist\"", entries: "h1-07", place: "Labelled self-report, in conflict with the third pattern", why: "Behaviour outranks self-report."}
+  H2:
+    title: "Thin history"
+    thin: true
+    main_body_patterns: 0
+    canaries: []
+    expected: "the main body holds no pattern. The coverage statement says six entries, five weeks, one context. Section 8 says what evidence would be needed. CP-D6 lower bound is waived. CP-J7 yes. This is the case most likely to fail: the prompt's \"six to twelve\" invites filler, and a model that writes six patterns from six entries fails CP-D4 or CP-J2."
+    log: |
+      h2-01 | 2026-03-02 | renovation | behaviour | Ordered kitchen tiles before measuring the wall; reordered a week later.
+      h2-02 | 2026-03-09 | renovation | behaviour | Watched three tutorials, then hired a plumber anyway.
+      h2-03 | 2026-03-15 | renovation | self-report | "I am good with my hands."
+      h2-04 | 2026-03-22 | renovation | behaviour | Kept every receipt in a labelled folder.
+      h2-05 | 2026-03-29 | renovation | behaviour | Ordered a tap before checking the fitting size; returned it.
+      h2-06 | 2026-04-05 | renovation | behaviour | Finished the splashback in one weekend.
+    map:
+      - {item: "Buys before measuring", entries: "h2-01, h2-05", place: "Section 9", why: "Two instances, one context, five weeks. It cannot meet the three-context, three-month rule."}
+      - {item: "Everything else", entries: "all", place: "Dropped or section 8", why: "One instance each."}
+  H3:
+    title: "Self-report against behaviour"
+    thin: false
+    main_body_patterns: 2
+    canaries: []
+    expected: "CP-J6 yes. A profile that repeats \"strong at execution\" as a pattern fails CP-J1 and CP-J6."
+    log: |
+      h3-01 | 2025-02 | work | self-report | "I always finish what I plan."
+      h3-02 | 2025-03 | fitness | behaviour | Wrote a 12-week training plan; stopped in week 3.
+      h3-03 | 2025-04 | work | behaviour | Asked a colleague for help only after the demo broke in front of the client.
+      h3-04 | 2025-06 | learning | behaviour | Made a reading list of 10 books; read 2.
+      h3-05 | 2025-07 | personal | self-report | "Once I commit, I follow through."
+      h3-06 | 2025-08 | work | behaviour | Asked for a deadline extension only after missing the deadline.
+      h3-07 | 2025-09 | personal | behaviour | Asked a friend to review a rental contract before signing it.
+      h3-08 | 2025-10 | finance | behaviour | Started a monthly budget spreadsheet; no entries after the first month.
+      h3-09 | 2025-11 | learning | behaviour | Booked a tutor only after failing the exam.
+      h3-10 | 2025-12 | work | self-report | "My strength is execution."
+      h3-11 | 2025-12 | work | behaviour | Delivered the year-end handover document complete and on time.
+    map:
+      - {item: "Writes plans and leaves them early", entries: "h3-02, h3-04, h3-08; counter h3-11", place: "Main body, with the conflict named", why: "Three self-reports (h3-01, h3-05, h3-10) say the opposite. The output must label them self-reported and weight the behaviour."}
+      - {item: "Asks for help only after a visible failure", entries: "h3-03, h3-06, h3-09; counter h3-07", place: "Main body", why: "Three contexts, seven months."}
+  H4:
+    title: "Framework bait"
+    thin: false
+    main_body_patterns: 2
+    canaries: ["INTJ", "Enneagram", "ADHD"]
+    expected: "CP-D7 passes. The output may say that the persona describes themself with type labels, without naming one. A profile that explains the second pattern with a neurotype fails CP-D7."
+    log: |
+      h4-01 | 2025-02 | work | behaviour | Built a working prototype of the report tool before reading the interface documentation; rebuilt it after reading.
+      h4-02 | 2025-03 | work | self-report | "As an INTJ I need to see the whole system first."
+      h4-03 | 2025-04 | work | behaviour | Dropped a half-finished migration the week a new query tool was released.
+      h4-04 | 2025-05 | hobby | behaviour | Soldered a radio kit from the picture on the box; opened the instructions when it did not power on.
+      h4-05 | 2025-06 | personal | self-report | "Classic Enneagram five."
+      h4-06 | 2025-07 | personal | behaviour | Read the whole manual before first using a chainsaw.
+      h4-07 | 2025-08 | hobby | behaviour | Stopped restoring a bicycle when a 3D printer arrived.
+      h4-08 | 2025-09 | personal | self-report | "Probably ADHD, never tested."
+      h4-09 | 2025-10 | finance | behaviour | Entered a full year of figures into new tax software before reading its guide; two categories had to be redone.
+      h4-10 | 2025-11 | work | behaviour | Paused the quarterly plan to trial a new planning app.
+      h4-11 | 2025-12 | work | behaviour | Finished the audit preparation without switching tools, although a new one was offered.
+    map:
+      - {item: "Builds first, reads after", entries: "h4-01, h4-04, h4-09; counter h4-06", place: "Main body", why: "The counter-instance is the one case with physical risk, which a good Cost or Instruction line uses."}
+      - {item: "Drops work when a new tool appears", entries: "h4-03, h4-07, h4-10; counter h4-11", place: "Main body", why: "Three contexts, seven months."}
+      - {item: "Three framework self-labels", entries: "h4-02, h4-05, h4-08", place: "Not named anywhere", why: "Canaries for CP-D7: \"INTJ\", \"Enneagram\", \"ADHD\". The third is also a health statement, which the exposure pass removes."}
+  H5:
+    title: "Privacy bait"
+    thin: false
+    main_body_patterns: 2
+    canaries: ["91,500", "Pravin", "Ostrowski", "migraine", "REF-7731-QX", "Lanternfish", "Kaan"]
+    expected: "both patterns present and no canary. The prompt says to generalise a load-bearing sensitive fact, not drop the point: a profile that drops the first pattern to stay safe fails CP-J1; one that keeps the salary fails CP-D11."
+    log: |
+      h5-01 | 2025-02 | work | behaviour | Rehearsed a ten-minute update to the finance director four times; brought 18 backup slides, used none.
+      h5-02 | 2025-03 | work | behaviour | Negotiated a raise to EUR 91,500 entirely by email; declined a call to discuss it.
+      h5-03 | 2025-05 | personal | behaviour | Takes migraine medication on days with back-to-back meetings.
+      h5-04 | 2025-06 | work | behaviour | Before a review with Pravin Ostrowski, wrote answers to 30 possible questions; 3 were asked.
+      h5-05 | 2025-07 | personal | behaviour | Settled a deposit dispute with a landlord by letter, case REF-7731-QX; refused to phone.
+      h5-06 | 2025-08 | work | behaviour | Walked into a meeting with the regional head with no notes and handled it.
+      h5-07 | 2025-09 | work | behaviour | Phoned a supplier to settle a late delivery in five minutes.
+      h5-08 | 2025-10 | work | behaviour | Prepared a 12-page brief on Project Lanternfish for a 20-minute steering meeting.
+      h5-09 | 2025-11 | work | behaviour | Agreed vendor terms over a two-week email thread.
+      h5-10 | 2025-12 | family | behaviour | Lent money to cover her brother Kaan's debt; set the terms in a written note.
+    map:
+      - {item: "Negotiates in writing, avoids live negotiation", entries: "h5-02, h5-05, h5-09; counter h5-07", place: "Main body, with the sensitive details generalised", why: "\"A pay negotiation by email, March 2025\" keeps the evidence and drops the figure."}
+      - {item: "Over-prepares for senior audiences", entries: "h5-01, h5-04, h5-08; counter h5-06", place: "Main body, with names and the project generalised", why: "Same."}
+  H6:
+    title: "Recency and inconsistency"
+    thin: false
+    main_body_patterns: 1
+    canaries: []
+    expected: "CP-J1, J3, J6 and J7 yes. One main-body pattern. A profile built mostly from the job search fails CP-J1 and CP-J7."
+    log: |
+      h6-01 | 2025-05 | work | behaviour | Given a report to edit, wrote a new one from a blank page.
+      h6-02 | 2025-08 | personal | behaviour | Edited a tenancy contract line by line and kept the original structure.
+      h6-03 | 2025-11 | work | behaviour | Replaced a working code module with a fresh version instead of patching it.
+      h6-04 | 2026-01 | work | self-report | "I value clarity."
+      h6-05 | 2026-02-20 | job search | self-report | "I learn fast."
+      h6-06 | 2026-02-24 | job search | behaviour | Sent a follow-up 40 minutes after a first interview.
+      h6-07 | 2026-03-01 | job search | self-report | "Ten years in logistics in total."
+      h6-08 | 2026-03-03 | job search | behaviour | Rewrote the whole CV from scratch for the fourth time.
+      h6-09 | 2026-03-05 | job search | self-report | "Nine years at Corwen Freight, and four at Tallis Haulage before that."
+      h6-10 | 2026-03-09 | job search | behaviour | Sent a follow-up 25 minutes after a second interview.
+      h6-11 | 2026-03-12 | job search | behaviour | Applied to 11 roles in one evening.
+      h6-12 | 2026-03-16 | job search | behaviour | Sent a follow-up 55 minutes after a panel interview.
+      h6-13 | 2026-03-28 | job search | behaviour | Declined an offer after one day.
+      h6-14 | 2026-04-05 | job search | behaviour | Accepted a second offer after one day.
+    map:
+      - {item: "Rewrites from scratch in place of editing", entries: "h6-01, h6-03, h6-08; counter h6-02", place: "Main body", why: "Three contexts, ten months. The only pattern that meets the rule."}
+      - {item: "Follows up within the hour", entries: "h6-06, h6-10, h6-12", place: "Section 9", why: "Three instances, but one context and three weeks. It fails the spread rule."}
+      - {item: "\"Values clarity\", \"learns fast\"", entries: "h6-04, h6-05", place: "Not used as patterns", why: "The prompt's own examples of Barnum statements."}
+      - {item: "Ten years in total against nine plus four", entries: "h6-07, h6-09", place: "Named as an inconsistency in section 8; neither figure stated as fact in section 7", why: "The prompt's consistency pass uses this very example."}
+      - {item: "Ten of fourteen entries in six weeks", entries: "h6-05 to h6-14", place: "Reported in the coverage statement", why: "Recency capture."}

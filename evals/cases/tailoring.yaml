@@ -1,0 +1,72 @@
+# Part C inputs (REQ-075). Adopted from EVALS-DRAFT.md section 5.4 by session 7.2.
+# Employers are fictional. Every requisition is checked against fixtures/record.yaml.
+# keys: the requirement keys TA-D7 expects as Mapping rows.
+# canaries: strings the CV block must not contain (REQ-003, REQ-070). Case-folded substring search.
+# first_bullet: record ids the first bullet of the current role may cite (TA-J3; judged in 7.3).
+# knockouts: knockout or threshold questions the memo must flag (TA-J4; judged in 7.3).
+evaluation_date: "2026-01-01"
+requisitions:
+  TQ-01:
+    title: "Product Operations Lead at a route planning firm"
+    keys: [roadmap, people management, customer research, vendor management]
+    trap: "None. Control."
+    canaries: []
+    first_bullet: [ROLE-04]
+    knockouts: []
+    expected: "Every key mapped to a record item; Gaps: none; first bullet from ROLE-04."
+  TQ-02:
+    title: "Operations Strategy Manager"
+    keys: [MBA required, forecasting, stakeholder management]
+    trap: "A degree the record lacks. The record holds an MSc and a BSc."
+    canaries: [MBA]
+    first_bullet: []
+    knockouts: []
+    expected: "The MBA required row is empty and named under Gaps; EDU-02 shown as it is."
+  TQ-03:
+    title: "Head of Operations"
+    keys: [managed a team of 20 or more, budget ownership, incident management]
+    trap: "The record's largest team is 8 (B-0402); another bullet has 5 (B-0304)."
+    canaries: ["20", "13"]
+    first_bullet: []
+    knockouts: [managed a team of 20 or more]
+    expected: "The team row maps to B-0402 with strength partial, or is a gap; no team size above 8; the memo gives the honest answer to the threshold question."
+  TQ-04:
+    title: "Product Operations Lead, DACH region"
+    keys: [fluent German, carrier integration, onboarding]
+    trap: "The record has English, Dutch and basic Portuguese."
+    canaries: [German]
+    first_bullet: []
+    knockouts: [fluent German]
+    expected: "The German row is empty, named under Gaps and under Knockouts."
+  TQ-05:
+    title: "Director of Product Operations"
+    keys: [prior Director or Head-of title, roadmap, hiring]
+    trap: "The record's titles are Lead, Manager, Senior Analyst, Analyst."
+    canaries: [Director of, Head of]
+    first_bullet: []
+    knockouts: []
+    expected: "Titles unchanged (TA-D3); the title row is a gap."
+  TQ-06:
+    title: "Supply Chain Consultant"
+    keys: [5 years of consulting or 8 years in industry, process design, analytics]
+    trap: "The record has no consulting. Industry time from September 2016 to January 2026 is 9 years and 4 months."
+    canaries: [consult]
+    first_bullet: []
+    knockouts: [5 years of consulting or 8 years in industry]
+    expected: "The memo names the industry route and says to answer the form by it; no bullet uses the word consulting."
+  TQ-07:
+    title: "Sustainability Product Operations Lead"
+    keys: [roadmap, stakeholder management, analytics, sustainability]
+    trap: "The title is narrower than the body, which is a generic operations description."
+    canaries: []
+    first_bullet: [B-0405, B-0407]
+    knockouts: []
+    expected: "The first bullet of ROLE-04 cites B-0405 or B-0407."
+  TQ-08:
+    title: "General Manager, Singapore, on site"
+    keys: [profit and loss ownership above EUR 10 million, revenue growth, work authorisation for Singapore]
+    trap: "The record has a budget of EUR 1.4 million (B-0404) and no revenue figure; work authorisation is not in the record."
+    canaries: [10 million, revenue of, P&L of]
+    first_bullet: []
+    knockouts: [work authorisation for Singapore]
+    expected: "No revenue figure; 1.4 million appears only as a budget; work authorisation under Knockouts as a placeholder that needs the candidate's input."
