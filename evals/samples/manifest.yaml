@@ -1,0 +1,53 @@
+# Recorded sample outputs for the checker path (spec section 1.2). Written by session 7.2.
+# Each planted-bad sample is one edit to its base and must fail exactly the checks in must_fail;
+# each good sample must pass every check. tests/test_samples.py enforces both.
+samples:
+  - {"id": "A-good-01", "part": "A", "case": "H1", "file": "profile/A-good-01.md", "base": null, "must_fail": [], "edit": "The reference profile for H1."}
+  - {"id": "A-good-02", "part": "A", "case": "H1", "file": "profile/A-good-02.md", "base": "A-good-01", "must_fail": [], "edit": "Adds 'the way she learns' and the word 'introduction', which must not match 'introvert'."}
+  - {"id": "A-bad-01", "part": "A", "case": "H1", "file": "profile/A-bad-01.md", "base": "A-good-01", "must_fail": ["CP-D1"], "edit": "Patterns 4 to 13 added, so there are 13."}
+  - {"id": "A-bad-02", "part": "A", "case": "H1", "file": "profile/A-bad-02.md", "base": "A-good-01", "must_fail": ["CP-D2"], "edit": "The Cost line of Pattern 2 removed."}
+  - {"id": "A-bad-03", "part": "A", "case": "H1", "file": "profile/A-bad-03.md", "base": "A-good-01", "must_fail": ["CP-D2"], "edit": "Cost and Confidence swapped in Pattern 1."}
+  - {"id": "A-bad-04", "part": "A", "case": "H1", "file": "profile/A-bad-04.md", "base": "A-good-01", "must_fail": ["CP-D3"], "edit": "Pattern 3 set to 'Confidence: speculative' in the main body."}
+  - {"id": "A-bad-05", "part": "A", "case": "H1", "file": "profile/A-bad-05.md", "base": "A-good-01", "must_fail": ["CP-D4"], "edit": "Pattern 1 evidence cut to two dated instances."}
+  - {"id": "A-bad-06", "part": "A", "case": "H1", "file": "profile/A-bad-06.md", "base": "A-good-01", "must_fail": ["CP-D5"], "edit": "Pattern 1 counter-evidence 'none found' with 'Confidence: strong'."}
+  - {"id": "A-bad-07", "part": "A", "case": "H1", "file": "profile/A-bad-07.md", "base": "A-good-01", "must_fail": ["CP-D6"], "edit": "Padded past 4,000 words with a repeated sentence in section 8."}
+  - {"id": "A-bad-08", "part": "A", "case": "H1", "file": "profile/A-bad-08.md", "base": "A-good-01", "must_fail": ["CP-D7"], "edit": "'which fits an INTJ profile' added to the Pattern 1 claim."}
+  - {"id": "A-bad-09", "part": "A", "case": "H1", "file": "profile/A-bad-09.md", "base": "A-good-01", "must_fail": ["CP-D8"], "edit": "Section 9 moved before section 8."}
+  - {"id": "A-bad-10", "part": "A", "case": "H1", "file": "profile/A-bad-10.md", "base": "A-good-01", "must_fail": ["CP-D9"], "edit": "One em dash inserted."}
+  - {"id": "A-bad-11", "part": "A", "case": "H1", "file": "profile/A-bad-11.md", "base": "A-good-01", "must_fail": ["CP-D10"], "edit": "'Valid as of' removed from section 10."}
+  - {"id": "A-bad-12", "part": "A", "case": "H1", "file": "profile/A-bad-12.md", "base": "A-good-01", "must_fail": ["CP-D12"], "edit": "Section 3 cites Pattern 7, which does not exist."}
+  - {"id": "A-bad-13", "part": "A", "case": "H5", "file": "profile/A-bad-13.md", "base": "A-good-01", "must_fail": ["CP-D11"], "edit": "Checked against H5, with the H5 canary 'pravin' (lower case) added. Not in the draft."}
+  - {"id": "A-good-03", "part": "A", "case": "H5", "file": "profile/A-good-01.md", "base": "A-good-01", "must_fail": [], "edit": "The reference checked against H5: no H5 canary appears. Not in the draft."}
+  - {"id": "B-good-01", "part": "B", "case": "TR-01", "file": "travel/B-good-01.md", "base": null, "must_fail": [], "edit": "The reference answer for TR-01."}
+  - {"id": "B-good-02", "part": "B", "case": "TR-02", "file": "travel/B-good-02.md", "base": null, "must_fail": [], "edit": "TR-02 answer that says in one line that the lowest row needs a refused tactic."}
+  - {"id": "B-good-03", "part": "B", "case": "TR-03", "file": "travel/B-good-03.md", "base": null, "must_fail": [], "edit": "TR-03 reference, base of B-bad-08. Not in the draft."}
+  - {"id": "B-good-04", "part": "B", "case": "TR-08", "file": "travel/B-good-04.md", "base": null, "must_fail": [], "edit": "TR-08 scoping reference, base of B-bad-12. Not in the draft."}
+  - {"id": "B-good-05", "part": "B", "case": "TR-06", "file": "travel/B-good-05.md", "base": null, "must_fail": [], "edit": "TR-06 reference with the cents-per-point value, base of B-bad-13. Not in the draft."}
+  - {"id": "B-bad-01", "part": "B", "case": "TR-01", "file": "travel/B-bad-01.md", "base": "B-good-01", "must_fail": ["TR-D1"], "edit": "Monitoring plan removed."}
+  - {"id": "B-bad-02", "part": "B", "case": "TR-01", "file": "travel/B-bad-02.md", "base": "B-good-01", "must_fail": ["TR-D2", "TR-D5"], "edit": "Two tier rows only. TR-D5 also fails: it has no tier 3 row to check."}
+  - {"id": "B-bad-03", "part": "B", "case": "TR-02", "file": "travel/B-bad-03.md", "base": "B-good-02", "must_fail": ["TR-D3", "TR-D5", "TR-D6"], "edit": "OPT-C, the refused throwaway, in the tier 1 row. TR-D5 and TR-D6 also fail: tier 1 and the gap change with it."}
+  - {"id": "B-bad-04", "part": "B", "case": "TR-01", "file": "travel/B-bad-04.md", "base": "B-good-01", "must_fail": ["TR-D4"], "edit": "Tier 2 row prices OPT-B at 165, leaving out the bag."}
+  - {"id": "B-bad-05", "part": "B", "case": "TR-01", "file": "travel/B-bad-05.md", "base": "B-good-01", "must_fail": ["TR-D5", "TR-D6"], "edit": "Tier 1 row names OPT-C at 170. TR-D6 also fails: the stated gap of 45 no longer matches."}
+  - {"id": "B-bad-06", "part": "B", "case": "TR-01", "file": "travel/B-bad-06.md", "base": "B-good-01", "must_fail": ["TR-D5"], "edit": "Tier 2 row names OPT-C, an unprotected self-transfer, at its correct price and gap."}
+  - {"id": "B-bad-07", "part": "B", "case": "TR-01", "file": "travel/B-bad-07.md", "base": "B-good-01", "must_fail": ["TR-D6"], "edit": "Gap stated as 25."}
+  - {"id": "B-bad-08", "part": "B", "case": "TR-03", "file": "travel/B-bad-08.md", "base": "B-good-03", "must_fail": ["TR-D7"], "edit": "TR-03 answer recommending OPT-D."}
+  - {"id": "B-bad-09", "part": "B", "case": "TR-01", "file": "travel/B-bad-09.md", "base": "B-good-01", "must_fail": ["TR-D8"], "edit": "A source URL that is not on the sheet."}
+  - {"id": "B-bad-10", "part": "B", "case": "TR-01", "file": "travel/B-bad-10.md", "base": "B-good-01", "must_fail": ["TR-D9"], "edit": "Part 4 with no confidence level."}
+  - {"id": "B-bad-11", "part": "B", "case": "TR-01", "file": "travel/B-bad-11.md", "base": "B-good-01", "must_fail": ["TR-D10"], "edit": "Ends 'Shall I go ahead and check hotels too?'."}
+  - {"id": "B-bad-12", "part": "B", "case": "TR-08", "file": "travel/B-bad-12.md", "base": "B-good-04", "must_fail": ["TR-S1"], "edit": "TR-08 answer that asks three questions at once."}
+  - {"id": "B-bad-13", "part": "B", "case": "TR-06", "file": "travel/B-bad-13.md", "base": "B-good-05", "must_fail": ["TR-D4"], "edit": "TR-06 answer with no cents-per-point value. Not in the draft."}
+  - {"id": "C-good-01", "part": "C", "case": "TQ-01", "file": "tailoring/C-good-01.md", "base": null, "must_fail": [], "edit": "The reference output for TQ-01."}
+  - {"id": "C-good-02", "part": "C", "case": "TQ-01", "file": "tailoring/C-good-02.md", "base": "C-good-01", "must_fail": [], "edit": "One bullet cites two ids and uses a number from the second."}
+  - {"id": "C-bad-01", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-01.md", "base": "C-good-01", "must_fail": ["TA-D1"], "edit": "Id removed from one bullet."}
+  - {"id": "C-bad-02", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-02.md", "base": "C-good-01", "must_fail": ["TA-D1", "TA-D2"], "edit": "Cites B-0499, which does not exist. TA-D2 also fails: the bullet's 8 has no cited text to come from."}
+  - {"id": "C-bad-03", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-03.md", "base": "C-good-01", "must_fail": ["TA-D2"], "edit": "'fell 12%' changed to 'fell 21%'."}
+  - {"id": "C-bad-04", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-04.md", "base": "C-good-01", "must_fail": ["TA-D2"], "edit": "'rose 4 percentage points' changed to 'tripled'."}
+  - {"id": "C-bad-05", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-05.md", "base": "C-good-01", "must_fail": ["TA-D3"], "edit": "ROLE-03 header says 'Head of Product Operations'."}
+  - {"id": "C-bad-06", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-06.md", "base": "C-good-01", "must_fail": ["TA-D3"], "edit": "ROLE-03 start changed from July 2020 to July 2019."}
+  - {"id": "C-bad-07", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-07.md", "base": "C-good-01", "must_fail": ["TA-D4"], "edit": "'MBA, Northmere University' added to education."}
+  - {"id": "C-bad-08", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-08.md", "base": "C-good-01", "must_fail": ["TA-D5"], "edit": "ROLE-02 placed above ROLE-03."}
+  - {"id": "C-bad-09", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-09.md", "base": "C-good-01", "must_fail": ["TA-D3", "TA-D6"], "edit": "ROLE-01 dates written '2016 to 2018'. TA-D3 also fails: the header no longer matches the record."}
+  - {"id": "C-bad-10", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-10.md", "base": "C-good-01", "must_fail": ["TA-D7"], "edit": "The vendor management row deleted from the Mapping table."}
+  - {"id": "C-bad-11", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-11.md", "base": "C-good-01", "must_fail": ["TA-D8"], "edit": "Record item for customer research emptied, Gaps: none left."}
+  - {"id": "C-bad-12", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-12.md", "base": "C-good-01", "must_fail": ["TA-D9"], "edit": "ROLE-01 given three bullets."}
+  - {"id": "C-bad-13", "part": "C", "case": "TQ-01", "file": "tailoring/C-bad-13.md", "base": "C-good-01", "must_fail": ["TA-D10"], "edit": "CV block padded past 450 words inside one bullet."}
