@@ -232,3 +232,16 @@ Not checked:
 - No checker, input, fixture or output exists yet. Sessions 7.2 and 7.3 write them.
 - The design's inputs, expected outputs and judgement rules have not been run on any model.
 - The three prompts were rewritten by a model and have not been compared line by line with their private sources by a person.
+
+Measured on 25 November 2026 by session 7.2, with Python 3.13.5 locally, pytest and Inspect AI 0.3.292 through uv:
+
+- The 22 inputs exist: `evals/cases/profile.yaml` (6 histories, 68 entries, 20 planted-map rows), `evals/cases/travel.yaml` (8 trips), `evals/cases/tailoring.yaml` (8 requisitions) and `fixtures/record.yaml`.
+- Every deterministic check (CP-D1 to D12, TR-D1 to D10, TR-S1, TA-D1 to D11) is code in `src/prompts_on_trial/checks/`. 49 recorded samples in `evals/samples/` (10 good, 39 planted bad) each fail exactly the checks their manifest row names. Every check except TA-D11 has a planted-bad sample that fails it; TA-D11 is proved by unit tests.
+- Every deterministic MUST (REQ-010 to 021, 042 to 052, 060 to 070) has a tagged test.
+- `evals/tasks.py` defines three Inspect AI tasks, three runs per input. Each ran on Inspect AI's offline mock model (`mockllm/model`): 66 samples scored, no network call to a model provider.
+- The names added in this session were checked with a web search on 25 November 2026 (REQ-008). One collided with real firms and was replaced (DEV-013).
+
+Not checked by session 7.2:
+
+- No real model has produced an output. The deterministic checks have run only on hand-written samples, all written by the same model that wrote the checks.
+- The judged checks, judge fixtures and baseline (sections 3.3, 4.3, 5.3, 6, 7) are session 7.3 and later.
