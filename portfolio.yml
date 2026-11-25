@@ -1,0 +1,9 @@
+name: prompts-on-trial
+pitch: Prompts treated as code: each ships with eval cases and a scored baseline.
+stack: [markdown, python, uv, pytest, inspect-ai]
+tests: 0
+release: none
+released_on: none
+demo_url: none
+repo_url: https://github.com/ampaduchris/prompts-on-trial
+example_pr_url: none
