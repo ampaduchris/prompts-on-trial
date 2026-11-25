@@ -10,7 +10,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from prompts_on_trial import baseline, checks, inputs, judge
+from prompts_on_trial import baseline, cases, checks, inputs, judge
 
 ROOT = Path(__file__).resolve().parent.parent
 SAMPLES = ROOT / "evals" / "samples"
@@ -41,6 +41,17 @@ def answers(output: str, *said: str) -> list[judge.Answer]:
     return [judge.read_answer(reply(s, first_line(output)), output) for s in said]
 
 
+def _case_material(part: str, case: str) -> str:
+    """A string from the case that the judge must see beside the output."""
+    if part == "A":
+        h = cases.histories()[case]
+        return h.log.splitlines()[0] if h.planted_map[0]["item"] in judge.prompt("CP-J1", case, "x") else "MISSING MAP"
+    if part == "B":
+        return f"Fare sheet {case}:\n{cases.trips()[case].sheet()}"
+    q = cases.requisitions()[case]
+    return f"{q.text()}\nRecord items that answer the most distinctive requirement: {', '.join(q.first_bullet) or 'none named'}"
+
+
 def _judged_check_is_proved(check_id: str, req: str) -> None:
     """The check exists, applies where the spec says, has two known-bad outputs, and the gate and
     the 2-of-3 rule give the right result on canned answers."""
@@ -48,6 +59,9 @@ def _judged_check_is_proved(check_id: str, req: str) -> None:
     assert jc.req == req and "?" in jc.question
     part_cases = [c for p, c in inputs.all_cases() if p == jc.part]
     assert [c for c in part_cases if jc.applies(c)] == APPLIES[check_id]
+    for c in part_cases:
+        want = [cid for cid, j in judge.JUDGED.items() if j.part == jc.part and c in APPLIES[cid]]
+        assert [j.id for j in judge.for_case(jc.part, c)] == want, c
 
     bads = judge.known_bad_for(check_id)
     assert len(bads) >= 2, "REQ-080: at least two known-bad outputs"
@@ -56,6 +70,7 @@ def _judged_check_is_proved(check_id: str, req: str) -> None:
         text = kb.text()
         p = judge.prompt(check_id, kb.case, text)
         assert jc.question in p and text.rstrip() in p and "ANSWER: yes or ANSWER: no" in p
+        assert _case_material(jc.part, kb.case) in p
 
     # A judge that says a clear no on every known-bad output, 3 of 3: the gate opens.
     gate_answers = {kb.id: answers(kb.text(), "no", "no", "no") for kb in bads}
@@ -267,8 +282,9 @@ def test_the_fourteen_design_fixtures_are_written():
 @pytest.mark.req("REQ-082")
 def test_every_judged_check_has_two_known_bad_outputs():
     counts = {cid: len(judge.known_bad_for(cid)) for cid in judge.JUDGED}
-    assert min(counts.values()) >= 2, counts
-    assert counts["TR-J4"] >= 2
+    assert counts == {cid: 2 for cid in judge.JUDGED}, counts
+    for cid in judge.JUDGED:
+        assert all(cid in kb.checks for kb in judge.known_bad_for(cid))
 
 
 @pytest.mark.req("REQ-082")
