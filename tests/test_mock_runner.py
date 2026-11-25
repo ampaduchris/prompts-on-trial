@@ -85,3 +85,14 @@ def test_runner_saves_outputs_and_a_baseline_the_checker_path_can_rerun(tmp_path
     assert len(list((tmp_path / "outputs").rglob("*.md"))) == 66
     assert baseline.recheck(path) == []
     assert b["judge_relation"] == "same model as generator"
+
+
+@pytest.mark.req("REQ-080")
+def test_gate_task_scores_a_clear_no_as_correct(tmp_path):
+    from inspect_ai import eval as inspect_eval
+
+    tasks = _runner().tasks
+    for broken, want in ((False, "C"), (True, "I")):
+        log = inspect_eval(tasks.judge_gate(), model=canned_judge(broken), display="none", log_dir=str(tmp_path), limit=2)[0]
+        assert log.status == "success"
+        assert {s.scores["gate_answer"].value for s in log.samples} == {want}
