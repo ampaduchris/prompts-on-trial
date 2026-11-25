@@ -1,7 +1,7 @@
 [project]
 name = "prompts-on-trial"
 version = "0.1.0"
-description = "Prompts treated as code: each ships with eval cases and a scored baseline."
+description = "Prompts treated as code: each ships with eval cases and checks proved able to fail."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
