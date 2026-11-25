@@ -14,6 +14,8 @@ def test_six_histories_with_the_designed_entry_counts():
     assert {k: len(v.entries) for k, v in h.items()} == {"H1": 16, "H2": 6, "H3": 11, "H4": 11, "H5": 10, "H6": 14}
     for v in h.values():
         assert v.planted_map, v.id
+        ids = [line.split("|")[0].strip() for line in v.entries]
+        assert ids == [f"{v.id.lower()}-{n:02d}" for n in range(1, len(ids) + 1)], v.id
         for line in v.entries:
             fields = [f.strip() for f in line.split("|")]
             assert len(fields) == 5 and fields[3] in ("behaviour", "self-report"), line
