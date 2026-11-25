@@ -1,0 +1,83 @@
+# Synthetic career record for part C (REQ-075, section 5.1). Fictional throughout.
+# Copied from the build 04 design, not imported (draft note 6). CRED-03 issuer renamed:
+# the original name matched real training firms on a web search (REQ-008).
+person:
+  name: Tessa Marlowe-Quint
+  contact: {email: tessa@example.org, phone: "[to confirm: fictional number]", city: Rotterdam}
+  languages:
+    - {name: English, level: native}
+    - {name: Dutch, level: professional}
+    - {name: Portuguese, level: basic}
+roles:
+  - id: ROLE-04
+    employer: Kestrel Routing
+    title: Product Operations Lead
+    start: 2023-04
+    end: present
+    location: Rotterdam
+    bullets:
+      - {id: B-0401, text: "Lead product operations for the route planning product, used by 240 fleets.", tags: [routing, last-mile, roadmap]}
+      - {id: B-0402, text: "Hired and manage 8 people across operations, support and data.", tags: [hiring, people-management]}
+      - {id: B-0403, text: "Launched the driver feedback loop; failed first-attempt deliveries fell 12%.", tags: [last-mile, routing, experimentation, customer-research]}
+      - {id: B-0404, text: "Run the annual operations budget of EUR 1.4 million.", tags: [budgeting, stakeholder-management]}
+      - {id: B-0405, text: "Built the emissions report per route with the data team; 60 fleets use it.", tags: [sustainability, analytics, dashboards, routing]}
+      - {id: B-0406, text: "Negotiated the map data contract, a saving of 18% on renewal.", tags: [vendor-management, cost-reduction, budgeting]}
+      - {id: B-0407, text: "Rolled out electric van routing constraints with pilot customers in Belgium.", tags: [sustainability, routing, product-discovery]}
+  - id: ROLE-03
+    employer: Brightwater Freight Labs
+    title: Product Operations Manager
+    start: 2020-07
+    end: 2023-03
+    location: Rotterdam
+    bullets:
+      - {id: B-0301, text: "Owned the operations roadmap for the shipper portal, 3 releases a quarter.", tags: [roadmap, product-discovery, stakeholder-management]}
+      - {id: B-0302, text: "Ran 31 customer interviews with small shippers and turned them into the onboarding redesign.", tags: [customer-research, product-discovery, onboarding]}
+      - {id: B-0303, text: "Cut time to first shipment for new shippers from 9 days to 3.", tags: [onboarding, process-design]}
+      - {id: B-0304, text: "Managed a team of 5 support specialists across two shifts.", tags: [people-management, support-operations]}
+      - {id: B-0305, text: "Set up the incident process with engineering; median time to resolve fell from 6 hours to 2.", tags: [incident-management, support-operations, sla]}
+      - {id: B-0306, text: "Integrated 7 carrier interfaces with the engineering team and wrote the acceptance tests.", tags: [carrier-integration, api, tooling]}
+      - {id: B-0307, text: "Introduced quarterly objectives for the operations group.", tags: [okr, stakeholder-management]}
+  - id: ROLE-02
+    employer: Halden Parcel Group
+    title: Senior Operations Analyst
+    start: 2018-09
+    end: 2020-06
+    location: Antwerp
+    bullets:
+      - {id: B-0201, text: "Led a pricing test on oversized parcels across 3 regions; margin on that product rose 4 percentage points.", tags: [pricing, experimentation, analytics]}
+      - {id: B-0202, text: "Designed the service level report for 9 enterprise shippers and presented it monthly.", tags: [sla, stakeholder-management, dashboards]}
+      - {id: B-0203, text: "Automated the customs pre-clearance file with Python, saving 11 hours a week.", tags: [automation, python, customs, cross-border]}
+      - {id: B-0204, text: "Modelled depot staffing against forecast volume; overtime hours fell 17% in one year.", tags: [forecasting, capacity-planning, cost-reduction]}
+      - {id: B-0205, text: "Mentored two junior analysts through their first year.", tags: [people-management, training]}
+      - {id: B-0206, text: "Wrote the playbook for depot outages after the March 2019 network failure.", tags: [incident-management, process-design]}
+      - {id: B-0207, text: "Represented operations in the contract renewal with 4 line-haul carriers.", tags: [vendor-management, stakeholder-management]}
+  - id: ROLE-01
+    employer: Halden Parcel Group
+    title: Operations Analyst
+    start: 2016-09
+    end: 2018-08
+    location: Antwerp
+    bullets:
+      - {id: B-0101, text: "Built the weekly depot performance dashboard in SQL, used by 14 depot managers.", tags: [analytics, sql, dashboards]}
+      - {id: B-0102, text: "Cleaned three years of scan data and cut duplicate parcel records from 6.2% to 0.9%.", tags: [data-quality, sql, analytics]}
+      - {id: B-0103, text: "Wrote the first demand forecast for peak season; error over the 4 peak weeks was 8%.", tags: [forecasting, analytics, capacity-planning]}
+      - {id: B-0104, text: "Mapped the returns process end to end and removed 5 of 19 manual steps.", tags: [process-design, returns, cost-reduction]}
+      - {id: B-0105, text: "Answered data requests from the customs desk for cross-border parcels.", tags: [cross-border, customs, analytics]}
+      - {id: B-0106, text: "Trained 22 depot clerks to use the scanning exception report.", tags: [training, onboarding, tooling]}
+      - {id: B-0107, text: "Kept the notes and actions of the Monday incident review for the regional operations team.", tags: [incident-management, stakeholder-management]}
+education:
+  - {id: EDU-02, institution: Northmere University, credential: MSc Supply Chain Analytics, start: 2015, end: 2016}
+  - {id: EDU-01, institution: Northmere University, credential: BSc Econometrics, start: 2012, end: 2015}
+credentials:
+  - {id: CRED-01, name: Certificate in Product Management, issuer: Delta Institute of Product, year: 2021}
+  - {id: CRED-02, name: Lean Practitioner Certificate, issuer: Harbour Operations Academy, year: 2018}
+  - {id: CRED-03, name: Data Protection Foundations, issuer: Larkspur Compliance School, year: 2022}
+skills:
+  - {id: SKILL-01, name: SQL, tags: [sql, analytics]}
+  - {id: SKILL-02, name: Python, tags: [python, automation]}
+  - {id: SKILL-03, name: Forecasting, tags: [forecasting]}
+  - {id: SKILL-04, name: Experiment design, tags: [experimentation]}
+  - {id: SKILL-05, name: Incident management, tags: [incident-management]}
+  - {id: SKILL-06, name: Vendor negotiation, tags: [vendor-management]}
+  - {id: SKILL-07, name: Customer interviews, tags: [customer-research]}
+  - {id: SKILL-08, name: Roadmapping, tags: [roadmap]}

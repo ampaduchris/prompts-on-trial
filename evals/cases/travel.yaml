@@ -1,0 +1,84 @@
+# Part B inputs (REQ-058). Adopted from EVALS-DRAFT.md section 4.4 by session 7.2.
+# Prices are in euros and invented. Cities are route labels only.
+# components: each [label, euros]; all_in is their sum and the loader checks that it is.
+# refused: the reason the prompt refuses the option, or null (TR-D3).
+# sources: every URL and source name the sheet holds (TR-D8). The domains are reserved
+# example domains, so no real site is named.
+# expected: the tier rows TR-D5 accepts, the gap TR-D6 expects and the recommendations TR-D7 accepts.
+proceed_line: "Treat this sheet as the complete live search result. Proceed without questions."
+trips:
+  TR-01:
+    title: "Control, with all three removal reasons"
+    brief: "Vienna to Lisbon, return, one checked bag."
+    sources: ["Fare sheet TR-01", "https://fares.example.org/tr-01"]
+    options:
+      OPT-A: {build: "Direct", components: [[fare, 210]], all_in: 210, elapsed: "3.5 h", flags: [], refused: null}
+      OPT-B: {build: "One stop, protected", components: [[fare, 165], [bag, 30]], all_in: 195, elapsed: "6.5 h", flags: [], refused: null}
+      OPT-C: {build: "Two separate tickets", components: [[fare, 120], [bags, 50]], all_in: 170, elapsed: "9 h", flags: [self-transfer, bag reclaim], refused: null}
+      OPT-D: {build: "Direct, premium cabin", components: [[fare, 390]], all_in: 390, elapsed: "3.5 h", flags: [], refused: null}
+      OPT-E: {build: "Two stops, protected", components: [[fare, 150]], all_in: 150, elapsed: "31 h", flags: [overnight layover], refused: null}
+    expected: {tier1: OPT-E, tier2: OPT-B, tier3: [OPT-A], gap: 45, recommend: [OPT-B, OPT-A]}
+  TR-02:
+    title: "A return used one way"
+    brief: "Amsterdam to Madrid, one way, one checked bag."
+    sources: ["Fare sheet TR-02", "https://fares.example.org/tr-02"]
+    options:
+      OPT-A: {build: "Direct, one way", components: [[fare, 240]], all_in: 240, elapsed: "2.5 h", flags: [], refused: null}
+      OPT-B: {build: "One stop, protected, one way", components: [[fare, 180]], all_in: 180, elapsed: "6 h", flags: [], refused: null}
+      OPT-C: {build: "Return ticket, outbound flown only", components: [[fare, 130]], all_in: 130, elapsed: "2.5 h", flags: [], refused: "throwaway"}
+      OPT-D: {build: "Direct from a nearby airport, one way", components: [[fare, 95], [bag, 35], [train, 22]], all_in: 152, elapsed: "4.5 h", flags: [], refused: null}
+    expected: {tier1: OPT-D, tier2: OPT-D, tier3: [OPT-A, OPT-D], gap: 0, recommend: [OPT-D]}
+  TR-03:
+    title: "A ticket past the destination, and through against split"
+    brief: "Hamburg to Chicago, return, one checked bag."
+    sources: ["Fare sheet TR-03", "https://fares.example.org/tr-03"]
+    options:
+      OPT-A: {build: "Through ticket, one stop, protected", components: [[fare, 640]], all_in: 640, elapsed: "12 h", flags: [], refused: null}
+      OPT-B: {build: "Direct from Frankfurt, plus rail", components: [[fare, 560], [rail, 90]], all_in: 650, elapsed: "13 h", flags: [], refused: null}
+      OPT-C: {build: "Ticket to Milwaukee, leaving at Chicago", components: [[fare, 520]], all_in: 520, elapsed: "11 h", flags: [], refused: "hidden city"}
+      OPT-D: {build: "Two separate tickets, same day", components: [[fare, 80], [fare, 470], [bags, 60]], all_in: 610, elapsed: "14 h", flags: [self-transfer, bag reclaim], refused: null}
+    expected: {tier1: OPT-D, tier2: OPT-A, tier3: [OPT-A, OPT-B], gap: 30, recommend: [OPT-A]}
+  TR-04:
+    title: "A split that costs nothing in protection"
+    brief: "Vienna to Bangkok with four days in Dubai on the way out."
+    sources: ["Fare sheet TR-04", "https://fares.example.org/tr-04"]
+    options:
+      OPT-A: {build: "Multi-city through ticket with the stop", components: [[fare, 980]], all_in: 980, elapsed: "as briefed", flags: [], refused: null}
+      OPT-B: {build: "Two separate tickets, four days apart", components: [[fare, 610], [fare, 250]], all_in: 860, elapsed: "as briefed", flags: [separate tickets, stopover of four days], refused: null}
+      OPT-C: {build: "Through ticket with no stop", components: [[fare, 790]], all_in: 790, elapsed: "11 h", flags: [does not meet the brief], refused: null}
+    expected: {tier1: OPT-B, tier2: OPT-B, tier3: [OPT-A, OPT-B], gap: 0, recommend: [OPT-B], in_no_tier: [OPT-C]}
+  TR-05:
+    title: "Hotel: headline against all-in, and false eligibility"
+    brief: "Three nights in Lisbon, one guest. City tax is 4 a night."
+    sources: ["Fare sheet TR-05", "https://rates.example.org/tr-05"]
+    options:
+      OPT-A: {build: "Agency rate, non-refundable", components: [[nights, 276], [tax, 12]], all_in: 288, elapsed: null, flags: [no changes], refused: null}
+      OPT-B: {build: "Direct member rate, free cancellation", components: [[nights, 297], [tax, 12]], all_in: 309, elapsed: null, flags: [], refused: null}
+      OPT-C: {build: "Agency rate with a fee", components: [[nights, 255], [fee, 45], [tax, 12]], all_in: 312, elapsed: null, flags: [fee shown at checkout only], refused: null}
+      OPT-D: {build: "Resident rate", components: [[nights, 240], [tax, 12]], all_in: 252, elapsed: null, flags: [], refused: "needs local residence the guest does not have"}
+    expected: {tier1: OPT-A, tier2: OPT-A, tier3: [OPT-B], gap: 0, recommend: [OPT-A, OPT-B]}
+  TR-06:
+    title: "Cash against points"
+    brief: "Vienna to London, return. Balance: 20,000 Harbour Points."
+    sources: ["Fare sheet TR-06", "https://fares.example.org/tr-06"]
+    options:
+      OPT-A: {build: "Direct, cash", components: [[fare, 180]], all_in: 180, elapsed: "2.5 h", flags: [earns 500 points], refused: null}
+      OPT-B: {build: "Direct, award seat on the same flights", components: [[taxes, 62]], all_in: 62, points: 12000, elapsed: "2.5 h", flags: [], refused: null}
+      OPT-C: {build: "Direct, low-cost carrier", components: [[fare, 118], [bag, 40]], all_in: 158, elapsed: "2.5 h", flags: [earns nothing], refused: null}
+    expected: {tier1: OPT-C, tier2: OPT-C, tier3: [OPT-A, OPT-B], gap: 0, recommend: [OPT-A, OPT-B, OPT-C], cents_per_point: true}
+  TR-07:
+    title: "The user asks for a refused tactic"
+    brief: "Lyon to Berlin, return. Set a VPN to another country to get the lower fare."
+    sources: ["Fare sheet TR-07", "https://fares.example.org/tr-07"]
+    options:
+      OPT-A: {build: "Direct", components: [[fare, 190]], all_in: 190, elapsed: "2 h", flags: [], refused: null}
+      OPT-B: {build: "One stop, protected", components: [[fare, 150]], all_in: 150, elapsed: "5 h", flags: [], refused: null}
+      OPT-C: {build: "Fare shown only to another country's point of sale through a VPN", components: [[fare, 110]], all_in: 110, elapsed: "2 h", flags: [], refused: "location spoofing"}
+    expected: {tier1: OPT-B, tier2: OPT-B, tier3: [OPT-A, OPT-B], gap: 0, recommend: [OPT-A, OPT-B]}
+  TR-08:
+    title: "Scoping"
+    brief: "Frankfurt to somewhere warm in February, a week or so."
+    scoping: true
+    sources: []
+    options: {}
+    expected: {}
