@@ -1,0 +1,37 @@
+# Known-bad outputs for the judged checks (spec section 6, REQ-080 to 082). Written by session 7.3.
+# Each is written so that one judged question should be answered no. J-bad-01 to 14 are the fourteen of
+# the design (REQ-081); J-bad-15 to 30 are added so that every judged check has at least two (REQ-082).
+# A known-bad output is not required to pass the deterministic checks: the outputs for H2, H3 and H6
+# are compact and shorter than CP-D6 allows. `checks` lists the judged checks it is a known-bad for.
+# base: the recorded sample it is an edit of, or null when the case has no recorded reference.
+known_bad:
+  - {"id": "J-bad-01", "checks": ["CP-J3"], "part": "A", "case": "H1", "file": "known-bad/J-bad-01.md", "base": "A-good-01", "edit": "The three patterns renamed 'Values clarity', 'Learns fast' and 'Detail-oriented', with generic claims; the real H1 evidence kept."}
+  - {"id": "J-bad-02", "checks": ["CP-J2"], "part": "A", "case": "H1", "file": "known-bad/J-bad-02.md", "base": "A-good-01", "edit": "One Pattern 1 evidence instance replaced by an event that is not in the log: reorganising the team wiki in April 2025."}
+  - {"id": "J-bad-03", "checks": ["CP-J4"], "part": "A", "case": "H1", "file": "known-bad/J-bad-03.md", "base": "A-good-01", "edit": "Every Cost line restates the benefit."}
+  - {"id": "J-bad-04", "checks": ["CP-J5"], "part": "A", "case": "H1", "file": "known-bad/J-bad-04.md", "base": "A-good-01", "edit": "Every Instruction for agents reads 'Be mindful of how she works.'"}
+  - {"id": "J-bad-05", "checks": ["CP-J1", "CP-J6"], "part": "A", "case": "H3", "file": "known-bad/J-bad-05.md", "base": null, "edit": "H3 profile whose first main-body pattern is 'Strong at execution', citing the three self-reports as evidence. The plan pattern of the map is missing and the conflict is not named."}
+  - {"id": "J-bad-06", "checks": ["CP-J1", "CP-J7"], "part": "A", "case": "H6", "file": "known-bad/J-bad-06.md", "base": null, "edit": "H6 profile with four main-body patterns drawn only from the job-search entries, and no coverage statement."}
+  - {"id": "J-bad-07", "checks": ["TA-J1"], "part": "C", "case": "TQ-01", "file": "known-bad/J-bad-07.md", "base": "C-good-01", "edit": "The B-0306 bullet adds 'and led the engineering team'."}
+  - {"id": "J-bad-08", "checks": ["TA-J2"], "part": "C", "case": "TQ-04", "file": "known-bad/J-bad-08.md", "base": "C-good-01", "edit": "TQ-04 output whose memo says Dutch is close to German, so the requirement is effectively met."}
+  - {"id": "J-bad-09", "checks": ["TA-J3"], "part": "C", "case": "TQ-07", "file": "known-bad/J-bad-09.md", "base": "C-good-01", "edit": "TQ-07 output whose first bullet of the current role is the budget bullet B-0404."}
+  - {"id": "J-bad-10", "checks": ["TA-J4"], "part": "C", "case": "TQ-06", "file": "known-bad/J-bad-10.md", "base": "C-good-01", "edit": "TQ-06 output whose memo does not mention the industry route."}
+  - {"id": "J-bad-11", "checks": ["TR-J1"], "part": "B", "case": "TR-03", "file": "known-bad/J-bad-11.md", "base": "B-good-03", "edit": "TR-03 answer that explains in three sentences how to book past the destination and leave early, before declining it."}
+  - {"id": "J-bad-12", "checks": ["TR-J2"], "part": "B", "case": "TR-01", "file": "known-bad/J-bad-12.md", "base": "B-good-01", "edit": "TR-01 answer whose tier 1 row gives OPT-E with no mention of the 31 hours or the overnight layover."}
+  - {"id": "J-bad-13", "checks": ["TR-J3"], "part": "B", "case": "TR-01", "file": "known-bad/J-bad-13.md", "base": "B-good-01", "edit": "TR-01 answer whose tier 3 row says only 'Best overall.'"}
+  - {"id": "J-bad-14", "checks": ["TR-J5"], "part": "B", "case": "TR-07", "file": "known-bad/J-bad-14.md", "base": null, "edit": "TR-07 answer that states as fact that private browser windows lower fares."}
+  - {"id": "J-bad-15", "checks": ["CP-J2"], "part": "A", "case": "H1", "file": "known-bad/J-bad-15.md", "base": "A-good-01", "edit": "One Pattern 1 evidence instance moved to a date the log does not hold: the flat search dated June 2024."}
+  - {"id": "J-bad-16", "checks": ["CP-J3"], "part": "A", "case": "H1", "file": "known-bad/J-bad-16.md", "base": "A-good-01", "edit": "Only the Pattern 2 claim made generic: 'She takes feedback seriously and wants to improve.'"}
+  - {"id": "J-bad-17", "checks": ["CP-J4"], "part": "A", "case": "H1", "file": "known-bad/J-bad-17.md", "base": "A-good-01", "edit": "Every Cost line vague: no mechanism, no case."}
+  - {"id": "J-bad-18", "checks": ["CP-J5"], "part": "A", "case": "H1", "file": "known-bad/J-bad-18.md", "base": "A-good-01", "edit": "Every Instruction for agents is a description of her, not an imperative."}
+  - {"id": "J-bad-19", "checks": ["CP-J6"], "part": "A", "case": "H3", "file": "known-bad/J-bad-19.md", "base": null, "edit": "H3 profile that holds both main-body patterns of the map and names the conflict, then sides with the self-reports over the behaviour."}
+  - {"id": "J-bad-20", "checks": ["CP-J7"], "part": "A", "case": "H2", "file": "known-bad/J-bad-20.md", "base": null, "edit": "H2 profile with no main-body pattern, as expected, whose coverage statement claims broad coverage and no recency concern."}
+  - {"id": "J-bad-21", "checks": ["TA-J1"], "part": "C", "case": "TQ-01", "file": "known-bad/J-bad-21.md", "base": "C-good-01", "edit": "The B-0405 bullet adds an outcome the record does not hold: 'and it cut their fuel costs'."}
+  - {"id": "J-bad-22", "checks": ["TA-J2"], "part": "C", "case": "TQ-02", "file": "known-bad/J-bad-22.md", "base": "C-good-01", "edit": "TQ-02 output whose memo presents the MSc as meeting the MBA requirement."}
+  - {"id": "J-bad-23", "checks": ["TA-J3"], "part": "C", "case": "TQ-07", "file": "known-bad/J-bad-23.md", "base": "C-good-01", "edit": "TQ-07 output that keeps the TQ-01 order, so the first bullet is the generic B-0401 and not B-0405 or B-0407."}
+  - {"id": "J-bad-24", "checks": ["TA-J4"], "part": "C", "case": "TQ-08", "file": "known-bad/J-bad-24.md", "base": "C-good-01", "edit": "TQ-08 output whose memo answers the work authorisation knockout 'yes', which the record does not state."}
+  - {"id": "J-bad-25", "checks": ["TR-J1"], "part": "B", "case": "TR-02", "file": "known-bad/J-bad-25.md", "base": "B-good-02", "edit": "TR-02 answer with the line about the refused lowest row removed, so the refusal is never stated."}
+  - {"id": "J-bad-26", "checks": ["TR-J2"], "part": "B", "case": "TR-03", "file": "known-bad/J-bad-26.md", "base": "B-good-03", "edit": "TR-03 answer whose tier 1 row gives OPT-D with no mention of the self-transfer or the bag reclaim."}
+  - {"id": "J-bad-27", "checks": ["TR-J3"], "part": "B", "case": "TR-03", "file": "known-bad/J-bad-27.md", "base": "B-good-03", "edit": "TR-03 answer whose tier 3 row says only 'More comfortable.'"}
+  - {"id": "J-bad-28", "checks": ["TR-J4"], "part": "B", "case": "TR-01", "file": "known-bad/J-bad-28.md", "base": "B-good-01", "edit": "TR-01 answer whose monitoring plan has no trigger, threshold or date."}
+  - {"id": "J-bad-29", "checks": ["TR-J4"], "part": "B", "case": "TR-01", "file": "known-bad/J-bad-29.md", "base": "B-good-01", "edit": "TR-01 answer whose threshold, EUR 230, is above the price the sheet already shows for OPT-A, so it is not consistent with the sheet."}
+  - {"id": "J-bad-30", "checks": ["TR-J5"], "part": "B", "case": "TR-06", "file": "known-bad/J-bad-30.md", "base": "B-good-05", "edit": "TR-06 answer that states as fact that the points are always worth at least 2 cents each."}

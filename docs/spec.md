@@ -4,11 +4,13 @@ This file is the sole authority. Prompts, drafts and requests never override it.
 
 Source: the evaluation design `EVALS-DRAFT.md` (frontload draft F9, written 15 November 2026 by Fable 5.2), adopted by session 7.1. Where this file differs from that draft, the difference is a numbered deviation in `docs/DEVIATIONS.md`. Every input, expected output and judgement rule was written by a model. Nothing was run when this file was written; no runner exists yet.
 
+Owner decision of 25 November 2026, written into this file by session 7.3: no paid model call is made for this build, and v1.0 runs no model. The runner writes a baseline and enforces the judge gate when a user runs it on their own key. No baseline is committed (DEV-018).
+
 ## 1. Purpose and scope
 
 ### 1.1 What this repository is
 
-Three prompts, each shipped with synthetic inputs, deterministic checks, judged checks and a dated baseline. The prompts are public rewrites of private prompts. Prompts only: no personal content and no personal input enters the repository.
+Three prompts, each shipped with synthetic inputs, deterministic checks, judged checks and known-bad outputs that prove each check able to fail. A runner writes a dated baseline when a user runs the prompts on their own key. The prompts are public rewrites of private prompts. Prompts only: no personal content and no personal input enters the repository.
 
 | Part | Prompt | Inputs | Deterministic checks | Judged checks |
 | --- | --- | --- | --- | --- |
@@ -21,7 +23,8 @@ Three prompts, each shipped with synthetic inputs, deterministic checks, judged 
 | Path | What runs | Where | Runs |
 | --- | --- | --- | --- |
 | Checker path | Each deterministic check against hand-written outputs: good ones that must pass and planted bad ones that must fail | Continuous integration, every pull request | 1 (deterministic) |
-| Model path | The prompt plus a synthetic input goes to a model; the saved output goes through the deterministic checks, then the judged checks | Locally, on the user's key, never in continuous integration | 3 per input; all three reported |
+| Model path | The prompt plus a synthetic input goes to a model; the saved output goes through the deterministic checks, then the judged checks | Locally, on the user's key, never in continuous integration. Not run for v1.0 | 3 per input; all three reported |
+| Judge rules | The 2-of-3 rule, the known-bad gate, the regression rule and the baseline format, run on canned judge answers and on Inspect AI's offline mock model | Continuous integration, every pull request | 1 (deterministic) |
 
 ### 1.3 Not evaluated
 
@@ -34,11 +37,11 @@ Also not covered by the eight trips: rail, bus, ferry, car hire, interline ticke
 | Id | Level | Requirement |
 | --- | --- | --- |
 | REQ-001 | MUST | A case passes a judged check when at least 2 of 3 judge runs answer yes. Each judge answer quotes the span it relies on. An answer with no quote counts as no. |
-| REQ-002 | MUST | The baseline records whether the judge is a different model from the generator. Where the user has one key only, the baseline says "same model as generator". |
+| REQ-002 | MUST | The baseline that the runner writes records whether the judge is a different model from the generator. Where the two model ids are the same, the baseline says "same model as generator". |
 | REQ-003 | MUST | A canary is a unique synthetic string planted in an input. A canary check is a plain substring search of the output after case folding. |
 | REQ-004 | MUST NOT | Continuous integration never calls a model. The checker path needs no network and no key. |
 | REQ-005 | MUST | Every deterministic check run on a model output is reported for all three runs. |
-| REQ-006 | MUST | A later baseline run regresses when any deterministic check that passed 3 of 3 now fails in any run, or when 2 or more judged checks flip from pass to fail across the set. |
+| REQ-006 | MUST | Given an earlier baseline, the runner reports a regression when any deterministic check that passed 3 of 3 in it now fails in any run, or when 2 or more judged checks flip from pass to fail across the set. A judged check whose gate is closed in either baseline is not compared. |
 | REQ-007 | MUST | The evaluation date for part C is fixed at 1 January 2026. "Present" means that date. |
 | REQ-008 | MUST | Every synthetic persona, employer, person and event is fictional. Each name is checked against a web search and the scrubber before it enters the repository. |
 
@@ -173,17 +176,19 @@ The model sees the doctrine, the synthetic career record and one requisition. Th
 
 | Id | Level | Requirement |
 | --- | --- | --- |
-| REQ-080 | MUST | Every judged check (REQ-030 to 036, 053 to 057, 071 to 074) ships at least two known-bad outputs. The judge must answer no on each of them in 3 of 3 runs before any score from that check is reported (control R4). A judged check that passes a known-bad output is broken, and its results are listed as NOT VERIFIED. |
+| REQ-080 | MUST | Every judged check (REQ-030 to 036, 053 to 057, 071 to 074) ships at least two known-bad outputs. On every run, before any score from a judged check is reported, the runner puts each of that check's known-bad outputs to the same judge 3 times. The gate opens only when every answer is a clear no. A yes, with or without a quote, or an answer that cannot be read closes the gate. While the gate is closed the check's answers are reported and its result is NOT VERIFIED (control R4). v1.0 has run no judge, so how well any judge judges is NOT VERIFIED. |
 | REQ-081 | MUST | The fourteen planted bad outputs of the design are written: J-bad-01 (CP-J3), 02 (CP-J2), 03 (CP-J4), 04 (CP-J5), 05 (CP-J1 and CP-J6), 06 (CP-J1 and CP-J7), 07 (TA-J1), 08 (TA-J2), 09 (TA-J3), 10 (TA-J4), 11 (TR-J1), 12 (TR-J2), 13 (TR-J3), 14 (TR-J5). |
 | REQ-082 | MUST | The known-bad outputs that the design lacks are added so that REQ-080 holds: TR-J4 has none, and every other judged check has one. |
+
+How a judge reply is read (`src/prompts_on_trial/judge.py`). The judge replies `ANSWER: yes` or `ANSWER: no`, then `QUOTE: "<span>"`. A yes counts only when the quote occurs in the judged output, ignoring case and runs of whitespace. Each of the 3 runs of a case is judged once, and the case passes at 2 of 3 (REQ-001, DEV-019). The known-bad outputs are in `evals/judge/` with their manifest.
 
 ## 7. Baseline file
 
 | Id | Level | Requirement |
 | --- | --- | --- |
-| REQ-090 | MUST | `docs/eval-baseline-YYYY-MM-DD.json`, one per release, records: runner, generator model id, judge model id, date, and for each of the 22 inputs and 3 runs the output path, every deterministic check result and every judged answer with its quote. |
-| REQ-091 | MUST | The baseline holds summary rows: deterministic checks passed in 3 of 3 runs, in 1 or 2 of 3, in 0 of 3; judged checks at 2 of 3 or better. |
-| REQ-092 | MUST | Outputs are committed under `evals/outputs/` so that the checker path can re-run on them in continuous integration. |
+| REQ-090 | MUST | The runner writes `eval-baseline-YYYY-MM-DD.json` to the output folder the user names. It records: runner and its version, generator model id, judge model id, date, the gate answers for every known-bad output, and for each of the 22 inputs and 3 runs the output path, every deterministic check result and every judged answer with its quote. The repository commits no baseline for v1.0. |
+| REQ-091 | MUST | The baseline holds summary rows: deterministic checks passed in 3 of 3 runs, in 1 or 2 of 3, in 0 of 3; judged checks at 2 of 3 or better; judged checks NOT VERIFIED because their gate is closed. |
+| REQ-092 | MUST | The runner saves every model output under `outputs/` in the same folder as its baseline, and the checker path can re-run on that folder. The repository commits no model output for v1.0. Continuous integration runs the checker path on the recorded samples in `evals/samples/` and the judge rules on the known-bad outputs in `evals/judge/`. |
 
 ## 8. The public prompts
 
@@ -202,7 +207,7 @@ The model sees the doctrine, the synthetic career record and one requisition. Th
 | --- | --- | --- |
 | REQ-110 | MUST | Tests carry `@pytest.mark.req("REQ-###")`. `scripts/trace.py` prints the requirement matrix. Once the session that owns a requirement has merged, an untested MUST fails continuous integration. |
 | REQ-111 | MUST | Every check id in the three tables of sections 3, 4 and 5 maps to a requirement in this file. |
-| REQ-112 | MUST | The README states the licence (MIT), the disclosure line, and that live search is NOT VERIFIED (section 1.3). |
+| REQ-112 | MUST | The README states the licence (MIT), the disclosure line, that live search is NOT VERIFIED (section 1.3), that no model was run for v1.0, and how a user runs the model path on their own key. |
 | REQ-113 | SHOULD | Mutation testing runs on the deterministic checkers when they exist, with the score and surviving mutants reviewed. No floor is set. |
 
 ## 10. Requirement index
@@ -218,7 +223,7 @@ Every scope bullet of `BUILD.md` maps to at least one MUST.
 | Scope bullet | Requirements |
 | --- | --- |
 | Three prompts, each with deterministic structure checks and judged quality checks on synthetic inputs | REQ-010, 030, 040, 042, 053, 058, 060, 071, 075, 100 |
-| CI runs deterministic checks only; judged checks run locally on the user's key, 3 runs each | REQ-001, 004, 005, 080 |
+| CI runs the deterministic checks and the judge harness on canned judge answers. No model is called by CI or for v1.0. Judged checks run only when a user chooses to, on their own key, 3 runs each | REQ-001, 004, 005, 080, 090, 112 |
 
 ## 12. Evidence
 
@@ -245,3 +250,16 @@ Not checked by session 7.2:
 
 - No real model has produced an output. The deterministic checks have run only on hand-written samples, all written by the same model that wrote the checks.
 - The judged checks, judge fixtures and baseline (sections 3.3, 4.3, 5.3, 6, 7) are session 7.3 and later.
+
+Measured on 25 November 2026 by session 7.3, with Python 3.13.5 locally, pytest and Inspect AI 0.3.292 through uv:
+
+- The 16 judged checks (CP-J1 to J7, TR-J1 to J5, TA-J1 to J4) are questions in `src/prompts_on_trial/judge.py`, scored by an Inspect AI scorer in `evals/tasks.py`. Every judged MUST (REQ-030 to 036, 053 to 057, 071 to 074) has a tagged test that is green on canned judge answers.
+- 30 known-bad outputs in `evals/judge/known-bad/`: the 14 of the design (REQ-081) and 16 more (REQ-082). Every judged check has at least two.
+- A test shows the gate refusing the scores of a judge that says yes to one known-bad output in one run of three (REQ-080). The runner `evals/run.py` ran end to end on Inspect AI's offline mock model three ways: with canned replies that fail every known-bad output (all 16 gates open), with canned replies that pass them (all 16 gates closed, every judged result NOT VERIFIED), and with the mock model's default reply, which cannot be read (all 16 gates closed).
+- No model was called. No baseline and no model output is committed (DEV-018).
+
+Not checked by session 7.3:
+
+- How well any real judge judges. No judge has seen a known-bad output. Whether a real judge says no to each of them is NOT VERIFIED.
+- How the three prompts perform on a real model.
+- Whether each known-bad output fails only the judged check it is written for. The compact outputs for H2, H3 and H6 fail deterministic checks too (DEV-020).

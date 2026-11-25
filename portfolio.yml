@@ -1,5 +1,5 @@
 name: prompts-on-trial
-pitch: Prompts treated as code: each ships with eval cases and a scored baseline.
+pitch: Prompts treated as code: each ships with eval cases and checks proved able to fail.
 stack: [markdown, python, uv, pytest, inspect-ai]
 tests: 0
 release: none

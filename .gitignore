@@ -7,3 +7,4 @@ mutants/
 .mutmut-cache
 dist/
 *.egg-info/
+evals/runs/

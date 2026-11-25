@@ -1,8 +1,8 @@
 # prompts-on-trial
 
-Prompts treated as code: each ships with eval cases and a scored baseline.
+Prompts treated as code: each ships with eval cases and checks proved able to fail.
 
-Status: active. This is the scaffold and the specification. The checkers, the synthetic inputs and the baselines arrive in later sessions.
+Status: active. The deterministic checks, the judged checks, the synthetic inputs and the runner exist. No model has been run.
 
 Built by directing Claude Code. No hand-written code. Every pull request was opened by the agent and approved and merged by me. Model and effort for every session are recorded in docs/BUILD-LOG.md.
 
@@ -12,16 +12,37 @@ Built by directing Claude Code. No hand-written code. Every pull request was ope
 | --- | --- |
 | `prompts/` | Three public prompts: a cognitive profile, a cheapest-travel method and a CV tailoring doctrine. |
 | `docs/spec.md` | The specification: one requirement for each deterministic check and each judged check. |
+| `src/prompts_on_trial/` | The deterministic checks, the judged questions, the 2-of-3 rule, the known-bad gate and the baseline format. No model library. |
+| `evals/cases/`, `fixtures/` | The 22 synthetic inputs: 6 histories, 8 trips, 8 requisitions and one career record. |
+| `evals/samples/` | Hand-written good and planted-bad outputs for the deterministic checks. |
+| `evals/judge/` | Two or more known-bad outputs for each of the 16 judged checks. |
+| `evals/tasks.py`, `evals/run.py` | The Inspect AI tasks and the runner for the model path. |
 | `scripts/trace.py` | Prints the requirement matrix and fails on an untested MUST. |
 
-## How the evaluation will work
+## How the evaluation works
 
 Two paths, kept apart. The checker path runs each deterministic check against hand-written good and bad outputs in continuous integration. The model path sends a prompt and a synthetic input to a model on your own key, runs the saved output through the deterministic checks and then through judged checks, three runs each, and reports all three. Continuous integration never calls a model.
+
+A judged check counts only when its judge can fail. Before any judged score is reported, the runner puts each known-bad output for that check to the same judge three times. One answer that is not a clear no closes the gate, and that check's results are reported as NOT VERIFIED. Continuous integration tests this rule on canned judge answers and on Inspect AI's offline mock model.
+
+## No model was run
+
+No model was run for v1.0 and no baseline is committed. This was a decision: no paid model calls for this build. Every claim here rests on the deterministic checks and on canned judge answers. How well a prompt performs on a real model, and how well a real judge judges, are NOT VERIFIED.
+
+## Run it on your own key
+
+```
+uv sync --group evals
+uv run python evals/run.py --generator anthropic/<model id> --judge openai/<model id> --out evals/runs/<date>
+```
+
+The runner calls the generator 3 times for each of the 22 inputs and the judge for each judged check. It writes `eval-baseline-<date>.json` and every output to the folder you name, which git ignores. Add `--compare <an earlier baseline>` to apply the regression rule. Leave out `--judge` to use one model for both; the baseline then says "same model as generator". Any Inspect AI model id works.
 
 ## Limits
 
 - Live search is NOT VERIFIED. The travel prompt tells a model to pull live fares. The evals replace that step with a synthetic fare sheet. What a model does with a real search tool is not tested.
-- Every input, expected output and judgement rule was written by a model. No eval has been run yet.
+- Every input, expected output, known-bad output and judgement rule was written by a model, the same model that wrote the checks.
+- No model has been run. Real-model performance and real judge quality are NOT VERIFIED.
 - Rail, bus, ferry, car hire, interline tickets, booking-window dates and error fares are in the travel prompt's scope and outside the eight test trips.
 
 ## Licence and authorship
